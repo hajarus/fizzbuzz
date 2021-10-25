@@ -16,15 +16,15 @@ public class FizzBuzzDoResponse {
 	public FizzBuzzDoResponse(){
 	};
 	
-	private List<String> listOfStrings;
+	private List<String> results;
 
 	
-	public List<String> getListOfStrings() {
-		return listOfStrings;
+	public List<String> getResults() {
+		return results;
 	}
 
-	public void setListOfStrings(List<String> listOfStrings) {
-		this.listOfStrings = listOfStrings;
+	public void setResults(List<String> results) {
+		this.results = results;
 	}
 	
 	

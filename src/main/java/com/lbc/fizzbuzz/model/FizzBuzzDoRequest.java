@@ -3,8 +3,6 @@ package com.lbc.fizzbuzz.model;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 
 /**
@@ -14,8 +12,6 @@ import lombok.ToString;
  * @author hafares
  *
  */
-@EqualsAndHashCode
-@ToString
 public class FizzBuzzDoRequest {
 
 	/**

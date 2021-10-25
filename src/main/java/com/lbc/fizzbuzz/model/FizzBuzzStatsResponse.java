@@ -2,13 +2,13 @@ package com.lbc.fizzbuzz.model;
 
 
 /**
- * Bean defining object : FizzBuzzStatsReponse.
+ * Bean defining object : FizzBuzzStatsResponse.
  * 
  * @author hafares
  */
-public class FizzBuzzStatsReponse {
+public class FizzBuzzStatsResponse {
 	
-	public FizzBuzzStatsReponse(){
+	public FizzBuzzStatsResponse(){
 		
 	}
 

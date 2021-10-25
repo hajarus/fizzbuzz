@@ -21,13 +21,15 @@ import org.junit.runner.RunWith;
 import com.lbc.fizzbuzz.model.FizzBuzzDTO;
 import com.lbc.fizzbuzz.model.FizzBuzzDoRequest;
 import com.lbc.fizzbuzz.model.FizzBuzzDoResponse;
-import com.lbc.fizzbuzz.model.FizzBuzzStatsReponse;
+import com.lbc.fizzbuzz.model.FizzBuzzStatsResponse;
 import com.lbc.fizzbuzz.model.StatsDTO;
 
 import com.lbc.fizzbuzz.service.IFizzBuzzService;
 /**
  * 
- * @author hajarus
+ * Test class for : FizzbuzzController
+ * 
+ * @author hafares
  *
  */
 @RunWith(EasyMockRunner.class)
@@ -66,7 +68,7 @@ public class FizzbuzzControllerTests {
 		FizzBuzzDoResponse result = fizzBuzzController.doFizzBuzz(bodyReqFizzBuzz);
 		
 		assertNotNull(result);
-		assertEquals(result.getListOfStrings().get(0), "test");
+		assertEquals(result.getResults().get(0), "test");
 		EasyMock.verify(serviceFizzBuzzMock);
 		
 	}
@@ -91,7 +93,7 @@ public class FizzbuzzControllerTests {
 		EasyMock.expectLastCall();
 		EasyMock.replay(serviceFizzBuzzMock);
 		
-		FizzBuzzStatsReponse result = fizzBuzzController.getStats();
+		FizzBuzzStatsResponse result = fizzBuzzController.getStats();
 		
 		assertNotNull(result);
 		assertEquals(result.getCount(), Integer.valueOf(4));

@@ -21,10 +21,30 @@ maven clean install
 
 ## Usages
 
+
 POST : /fizzbuzz
 
-Call example : curl http://localhost:8080/fizzbuzz -d '{"int1": 1,"str1": "fizz","int2": 5,"str2": "buzz","limit": 100}' -H 'content-type: application/json'
+Call example :
+
+``` 
+curl http://localhost:8080/fizzbuzz -d '{"int1": 3,"str1": "fizz","int2": 5,"str2": "buzz","limit": 100}' -H 'content-type: application/json'
+```
  
 GET : /stats 
 
-Call example : curl http://localhost:8080/stats -d -H 'content-type: application/json'
+Call example : 
+
+```
+curl http://localhost:8080/stats -H 'content-type: application/json'
+```
+
+
+## API Documentation
+
+
+Available [here] [1] !
+
+(the server need to be launched)
+
+[1]: http://localhost:8080/swagger-ui.html
+

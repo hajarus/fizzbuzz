@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lbc.fizzbuzz.model.FizzBuzzDTO;
 import com.lbc.fizzbuzz.model.FizzBuzzDoRequest;
 import com.lbc.fizzbuzz.model.FizzBuzzDoResponse;
-import com.lbc.fizzbuzz.model.FizzBuzzStatsReponse;
+import com.lbc.fizzbuzz.model.FizzBuzzStatsResponse;
 import com.lbc.fizzbuzz.model.StatsDTO;
+import com.lbc.fizzbuzz.service.FizzBuzzService;
 import com.lbc.fizzbuzz.service.IFizzBuzzService;
 
 /**
@@ -32,7 +33,7 @@ public class FizzBuzzController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FizzBuzzController.class);
 
 	@Autowired
-	private IFizzBuzzService serviceFizzBuzz;
+	private IFizzBuzzService serviceFizzBuzz = new FizzBuzzService();
 
 	
 
@@ -56,7 +57,7 @@ public class FizzBuzzController {
 		List<String> listFizzBuzz = serviceFizzBuzz.postFizzBuzz(bodyReqFizzBuzz.getInt1(), bodyReqFizzBuzz.getInt2(),
 				bodyReqFizzBuzz.getLimit(), bodyReqFizzBuzz.getStr1(), bodyReqFizzBuzz.getStr2());
 
-		response.setListOfStrings(listFizzBuzz);
+		response.setResults(listFizzBuzz);
 
 		LOGGER.info("Result of request > ", response);
 		return (response);
@@ -66,12 +67,12 @@ public class FizzBuzzController {
 	 * Method GET : enabling to get stats of the parameters corresponding to the
 	 * most used request, as well as the number of hits for this request.
 	 * 
-	 * @return FizzBuzzStatsReponse : composed by the params most used and the number of hits(count).
+	 * @return FizzBuzzStatsResponse : composed by the params most used and the number of hits(count).
 	 */
 	@GetMapping("/stats")
-	public FizzBuzzStatsReponse getStats() {
+	public FizzBuzzStatsResponse getStats() {
 
-		FizzBuzzStatsReponse response = new FizzBuzzStatsReponse();
+		FizzBuzzStatsResponse response = new FizzBuzzStatsResponse();
 
 		// Call layer service
 		StatsDTO statsDTO = serviceFizzBuzz.getStats();

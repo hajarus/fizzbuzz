@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-
 import com.lbc.fizzbuzz.db.FizzBuzzRepository;
 import com.lbc.fizzbuzz.model.FizzBuzzDTO;
 import com.lbc.fizzbuzz.model.StatsDTO;
@@ -30,74 +29,88 @@ import com.lbc.fizzbuzz.model.StatsDTO;
  */
 @Service("serviceFizzBuzz")
 public class FizzBuzzService implements IFizzBuzzService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(FizzBuzzService.class);
-	
+
 	@Autowired
 	private FizzBuzzRepository repository;
-	
+
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
+
 	/**
+	 * {@inheritDoc}
 	 * 
+	 * @see com.lbc.fizzbuzz.service.IFizzBuzzService#postFizzBuzz(Integer, Integer,
+	 *      Integer, String, String)
 	 */
 	@Override
-	public List<String> postFizzBuzz(final Integer int1, final Integer int2, final Integer limit,final String str1,final String str2){
-		
+	public List<String> postFizzBuzz(final Integer int1, final Integer int2, final Integer limit, final String str1,
+			final String str2) {
+
 		List<String> finalList = new ArrayList<>();
 		FizzBuzzDTO fizzBuzzDTO = new FizzBuzzDTO();
-		
+
 		fizzBuzzDTO.setInt1(int1);
 		fizzBuzzDTO.setInt2(int2);
 		fizzBuzzDTO.setLimit(limit);
 		fizzBuzzDTO.setStr1(str1);
 		fizzBuzzDTO.setStr2(str2);
-		
+
 		LOGGER.info("Saving in database object > ", fizzBuzzDTO);
 		repository.save(fizzBuzzDTO);
-		
 
-		try {
-			for (int i = 1; i <= limit; i++) {
-				if (i % int2 == 0 && i % int1 == 0) {
-					finalList.add(str1 + str2);
-				} else if (i % int1 == 0) {
-					finalList.add(str1);
-				} else if (i % int2 == 0) {
-					finalList.add(str2);
-				} else {
-					finalList.add(String.valueOf(i));
-				}
+		for (int i = 1; i <= limit; i++) {
+			// Testing multiples of int1 and int2
+			if (i % int2 == 0 && i % int1 == 0) {
+				finalList.add(str1 + str2);
 			}
-		
-		} catch (Exception ex) {
-		LOGGER.debug("Handling of [" + ex.getClass().getName() + "] resulted in Exception", ex);
+			// Check for the multiples of int1
+			else if (i % int1 == 0) {
+				finalList.add(str1);
+			}
+			// Check for the multiples of int2
+			else if (i % int2 == 0) {
+				finalList.add(str2);
+			} else {
+				finalList.add(String.valueOf(i));
+			}
 		}
 		return (finalList);
 	}
 
 	/**
+	 * {@inheritDoc}
 	 * 
+	 * @see com.lbc.fizzbuzz.service.IFizzBuzzService#getStats()
 	 */
 	@Override
 	public StatsDTO getStats() {
-		
-		//Prepare Aggregation
+
+		// Prepare Aggregation
 		GroupOperation countParams = Aggregation.group("int1", "int2", "limit", "str1", "str2").count().as("count");
 		SortOperation sortByCount = Aggregation.sort(Direction.DESC, "count");
 		LimitOperation limit = Aggregation.limit(1);
+
 		Aggregation aggregation = Aggregation.newAggregation(countParams, sortByCount, limit);
 
-		AggregationResults<StatsDTO> resultAggregation = mongoTemplate
-		  .aggregate(aggregation, "fizzBuzzDTO", StatsDTO.class);
-		List<StatsDTO> listStatsDTO = resultAggregation.getMappedResults();
-		
+		AggregationResults<StatsDTO> resultAggregation = mongoTemplate.aggregate(aggregation, "fizzBuzzDTO",
+				StatsDTO.class);
+
+		final List<StatsDTO> listStatsDTO = resultAggregation.getMappedResults();
+
 		if (CollectionUtils.isEmpty(listStatsDTO)) {
 			return null;
 		}
-		return listStatsDTO.get(0);		
+		return listStatsDTO.get(0);
 	}
-	
-	
+
+	public void setRepository(FizzBuzzRepository repository) {
+		this.repository = repository;
+	}
+
+	public void setMongoTemplate(MongoTemplate mongoTemplate) {
+		this.mongoTemplate = mongoTemplate;
+	}
+
 }
