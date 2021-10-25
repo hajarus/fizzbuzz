@@ -42,7 +42,7 @@ curl http://localhost:8080/stats -H 'content-type: application/json'
 ## API Documentation
 
 
-Available [here] [1] !
+Available [here][1] !
 
 (the server need to be launched)
 
